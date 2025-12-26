@@ -5,23 +5,28 @@
   <title>Leaflet + OpenTopoData Elevation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  //<!-- Leaflet CSS (PASTIKAN tag <link> digunakan) -->
+//Baris 1 mesti tepat: <!DOCTYPE html> (tiada huruf tambahan).
+//Pastikan ada tag <style>...</style> yang berasingan untuk CSS anda (selepas <link ...>).
+//Pastikan tag ...</script> ditutup. Kod JS anda mesti berada dalam tag <script> lain yang berasingan.
+//Fail bernama betul: index.html, di root repo (bukan subfolder).
+  
+  <!-- Leaflet CSS -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4MxwzUjCJKq6rUojA+eEoRrQGZo4PM6cPcZ3qxR0XQ="
-    crossorigin=""
-{ height: 100vh; width: 100vw; }
+   : 0; }
+    #map { height: 100vh; width: 100vw; }
     .leaflet-container { background: #f3f3f3; }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
-  //<!-- Leaflet JS (PASTIKAN tag <script> digunakan) -->
+  <!-- Leaflet JS (library) -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-       // UNTUK GITHUB PAGES: isi dengan Cloudflared URL semasa.
+    integrity="sha256-pOw0NZg6Su3A1u9V5qzI0XhJf7FBzSRcN44C3vDq9Ckdflared" URL semasa.
     const proxyBase = "https://abc123.trycloudflare.com";
 
     // Inisialisasi peta
