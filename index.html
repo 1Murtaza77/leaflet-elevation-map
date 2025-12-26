@@ -1,4 +1,6 @@
+
 <!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Leaflet + OpenTopoData Elevation</title>
@@ -9,8 +11,7 @@
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4MxwzUjCJKq6rUojA+eEoRrQGZo4PM6cPcZ3qxR0XQ="
-   : 0; }
-    #map { height: 100vh; width: 100vw; }
+   { height: 100vh; width: 100vw; }
     .leaflet-container { background: #f3f3f3; }
   </style>
 </head>
@@ -20,11 +21,12 @@
   <!-- Leaflet JS (library) -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-pOw0NZg6Su3A1u9V5qzI0XhJf7FBzSRcN44C3vDq9Ckdflared URL semasa.
-    const proxyBase = "https://abc123.trycloudflare.com";
+    integrity="sha256-pOw0NZg6Su3A1u9V5qzI0XhJf7FBzSRcN44C3vDq9Ck="
+   dflared URL semasa
+    const proxyBase = "https://abc123.trycloudflare.com"; // contoh: https://abc123.trycloudflare.com
 
-    // Inisialisasi peta
-    const map = L.map("map", { zoomControl: true }).setView([13.736717, 100.523186], 10); // zoom ke Bangkok
+    // Inisialisasi peta (fokus ke Bangkok untuk ujian)
+    const map = L.map("map", { zoomControl: true }).setView([13.736717, 100.523186], 10);
 
     // OpenStreetMap tiles (HTTPS)
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -43,6 +45,7 @@
       const { lat, lng } = e.latlng;
       let popupText = "Fetching elevation...";
       const marker = L.marker([lat, lng]).addTo(map).bindPopup(popupText).openPopup();
+
       try {
         const data = await fetchElevation(lat, lng);
         const elev = data.elevation;
@@ -52,6 +55,7 @@
       } catch (err) {
         popupText = `Lat: ${lat.toFixed(6)}<br>Lon: ${lng.toFixed(6)}<br><b>Error:</b> ${err.message}`;
       }
+
       marker.setPopupContent(popupText).openPopup();
     });
   </script>
