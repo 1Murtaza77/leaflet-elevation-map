@@ -1,32 +1,58 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Leaflet + OpenTopoData Elevation</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  https://unpkg.com/leaflet@1.9.4/dist/leaflet.css
-  <style>
-    html, body, #map { height: 100%; margin: 0; }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist* Pastikan badan dokumen dan peta ada ketinggian */
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100vh; width: 100vw; }
+    .leaflet-container { background: #f3f3f3; } /* warna latar kalau tiles belum load */
   </style>
 </head>
 <body>
   <div id="map"></div>
-  https://unpkg.com/leaflet@1.9.4/dist/leaflet.js
+
+  <!-- Leaflet JS -->
+  https://unpkg.com/leaflet@1.9.4/dist/leaflet.js</script>
+
   <script>
-    const proxyBase = "https://abc123.trycloudflare.com"; // Replace with Cloudflared URL
-    const map = L.map("map").setView([20, 0], 2);
+    // Untuk GITHUB PAGES, JANGAN kosongkan proxyBase. Isi dengan Cloudflared URL semasa.
+    const proxyBase = "https://abc123.trycloudflare.com"; //tadi by defaut const proxyBase = "YOUR_PUBLIC_URL"
+
+    // Inisialisasi peta
+    const map = L.map("map", { zoomControl: true }).setView([20, 0], 2);
+
+    // Tiles OpenStreetMap (HTTPS, supaya tak kena mixed-content)
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 18,
       attribution: "&copy; OpenStreetMap contributors"
     }).addTo(map);
 
-    map.on("click", async (e) => {
-      const url = `${proxyBase}/elevation?lat=${e.latlng.lat}&lon=${e.latlng.lng}`;
+    async function fetchElevation(lat, lon) {
+      const url = `${proxyBase}/elevation?lat=${lat}&lon=${lon}&dataset=srtm90m`;
       const resp = await fetch(url);
-      const data = await resp.json();
-      L.marker(e.latlng).addTo(map)
-        .bindPopup(`Elevation: ${data.elevation ?? "N/A"} m`)
-        .openPopup();
+      if (!resp.ok) throw new Error(`Server returned ${resp.status}`);
+      return await resp.json();
+    }
+
+    map.on("click", async (e) => {
+      const { lat, lng } = e.latlng;
+      let popupText = "Fetching elevation...";
+      const marker = L.marker([lat, lng]).addTo(map).bindPopup(popupText).openPopup();
+      try {
+        const data = await fetchElevation(lat, lng);
+        const elev = data.elevation;
+        popupText = (elev !== null && elev !== undefined)
+          ? `Lat: ${lat.toFixed(6)}<br>Lon: ${lng.toFixed(6)}<br><b>Elevation:</b> ${elev} m`
+          : "Elevation not available";
+      } catch (err) {
+        popupText = `Lat: ${lat.toFixed(6)}<br>Lon: ${lng.toFixed(6)}<br><b>Error:</b> ${err.message}`;
+      }
+      marker.setPopupContent(popupText).openPopup();
     });
   </script>
 </body>
