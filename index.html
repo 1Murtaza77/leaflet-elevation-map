@@ -1,32 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Leaflet + OpenTopoData Elevation</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist* Pastikan badan dokumen dan peta ada ketinggian */
-    html, body { height: 100%; margin: 0; }
-    #map { height: 100vh; width: 100vw; }
-    .leaflet-container { background: #f3f3f3; } /* warna latar kalau tiles belum load */
+  <!-- Leaflet CSS (PASTIKAN tag <link> digunakan) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4MxwzUjCJKq6rUojA+eEoRrQGZo4PM6cPcZ3qxR0XQ="
+    crossorigin=""
+{ height: 100vh; width: 100vw; }
+    .leaflet-container { background: #f3f3f3; }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
-  <!-- Leaflet JS -->
-  https://unpkg.com/leaflet@1.9.4/dist/leaflet.js</script>
-
-  <script>
-    // Untuk GITHUB PAGES, JANGAN kosongkan proxyBase. Isi dengan Cloudflared URL semasa.
-    const proxyBase = "https://abc123.trycloudflare.com"; //tadi by defaut const proxyBase = "YOUR_PUBLIC_URL"
+  <!-- Leaflet JS (PASTIKAN tag <script> digunakan) -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+       // UNTUK GITHUB PAGES: isi dengan Cloudflared URL semasa.
+    const proxyBase = "https://abc123.trycloudflare.com";
 
     // Inisialisasi peta
-    const map = L.map("map", { zoomControl: true }).setView([20, 0], 2);
+    const map = L.map("map", { zoomControl: true }).setView([13.736717, 100.523186], 10); // zoom ke Bangkok
 
-    // Tiles OpenStreetMap (HTTPS, supaya tak kena mixed-content)
+    // OpenStreetMap tiles (HTTPS)
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 18,
       attribution: "&copy; OpenStreetMap contributors"
